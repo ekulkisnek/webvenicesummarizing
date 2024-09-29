@@ -80,14 +80,14 @@ def send_to_venice_llm(preprocessed_data: Dict[str, Union[str, List[Dict[str, st
         "messages": [
             {
                 "role": "system",
-                "content": "Please summarize the content of the webpage."
+                "content": "Please summarize the content of the webpage. List all the interactive elements on the page, their types, IDs, and classes. Also, list all the buttons, their text,"
             },
             {
                 "role": "user",
                 "content": json.dumps(preprocessed_data, indent=2)
             }
         ],
-        "model": "nous-hermes-8b"
+        "model": "nous-hermes-8b",
     })
     
     headers = {
@@ -121,6 +121,7 @@ def main():
             preprocessed_data = preprocess_html(html_content)
             
             print("Sending preprocessed data to Venice LLM API...")
+            print("Preprocessed data:", preprocessed_data)
             summary = send_to_venice_llm(preprocessed_data)
             
             print("\nWebpage Summary:")
