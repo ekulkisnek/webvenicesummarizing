@@ -1,0 +1,63 @@
+Create a simple Python script that takes a URL as input, retrieves the webpage's source code using the requests library, and then preprocesses the HTML content to extract relevant information about the page structure and content. The goal is to make the extracted information easily digestible for the Venice LLM API. Please ensure the script is concise, readable, and can be quickly deployed on Replit.
+
+The script should utilize the requests and BeautifulSoup libraries to fetch and parse the HTML content, respectively. It should also use the json library to handle JSON data.
+
+For the Venice LLM API integration, please use the provided API key and the following snippet as a reference:
+
+python
+
+import requests
+import json
+
+url = "https://api.venice.ai/api/v1/chat/completions"
+
+payload = json.dumps({
+   "messages": [
+       {
+           "role": "system",
+           "content": "Please summarize the content of the webpage."
+       },
+       {
+           "role": "user",
+           "content": "Webpage content"
+       }
+   ],
+   "model": "nous-hermes-8b"
+})
+headers = {
+   'Accept': 'application/json',
+   'Content-Type': 'application/json',
+   'Authorization': 'Bearer po3YpuVSFKDkwO0S9Yz0NjascEq699ZDbRxv7FYYSS'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+
+print(response.text)
+
+Please note that the messages component is a list of dictionaries, where each dictionary represents a message in the conversation. The role field specifies whether the message is from the system or the user, and the content field contains the actual message text.
+
+For preprocessing the HTML content, please consider the following steps:
+
+    Remove any unnecessary HTML tags that do not provide structural information about the page, such as <script> or <style> tags
+    Identify and extract information about clickable buttons, videos, audios, and other interactive elements on the page
+    Represent the page structure as a nested dictionary or list, where each element contains information about its content, type, and any relevant attributes
+
+The goal is to provide the LLM with a concise and structured representation of the page content, rather than a raw HTML string. This will allow the LLM to better understand the page structure and provide more accurate instructions for navigating the page.
+
+In particular, please focus on extracting information about the following elements:
+
+    Clickable buttons: extract the button text, href attribute, and any other relevant attributes
+    Videos: extract the video title, URL, and any other relevant attributes
+    Audios: extract the audio title, URL, and any other relevant attributes
+    Other interactive elements: extract the element text, href attribute, and any other relevant attributes
+
+Please use the BeautifulSoup library to parse the HTML content and extract the relevant information.
+
+Additionally, please consider implementing the following features:
+
+    Handling potential errors and exceptions, such as network errors or API rate limits
+    Providing informative error messages to the user
+    Allowing the user to customize the preprocessing steps and the LLM API parameters
+    Implementing a caching mechanism to store the results of previous API calls and reduce the number of requests made to the API
+
+Please keep the code concise, readable, and well-documented, using Markdown formatting for maximum readability. Also, consider using descriptive variable names and follow standard Python coding conventions.
